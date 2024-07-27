@@ -15,4 +15,6 @@ router.post("/tasks/create", controller.create)
 
 router.patch("/tasks/edit/:id", controller.edit)
 
+router.delete("/tasks/delete/:id", controller.delete)
+
 module.exports = router
