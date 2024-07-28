@@ -1,11 +1,9 @@
 const md5 = require("md5")
 const User = require("../models/user.model")
+const ForgotPassword = require("../models/forgot-password.model")
 
 const generateHelper = require("../../../helpers/generate")
 const sendMailHelper = require("../../../helpers/sendMail")
-
-const ForgotPassword = require("../models/forgot-password.model")
-
 
 // POST /api/v1/users/register
 module.exports.register = async (req, res) => {
@@ -96,7 +94,7 @@ module.exports.forgotPassword = async (req,res) => {
 
     const otp = generateHelper.generateRandomNumber(8);
 
-    const timeExpire = 5; // thời gian hết hạn mã OTP
+    const timeExpire = 10; // thời gian hết hạn mã OTP
     // Lưu data vào database
     const objectForgotPassword = {
         email: email,
@@ -118,5 +116,37 @@ module.exports.forgotPassword = async (req,res) => {
     res.json({
         code: 200,
         message: "Đã gửi mã OTP qua email"
+    })
+}
+
+// POST /api/v1/users/password/otp
+module.exports.otpPassword = async (req,res) => {
+    const email = req.body.email
+    const otp = req.body.otp
+
+    const result = await ForgotPassword.findOne({
+        email: email,
+        otp: otp
+    })
+
+    if(!result) {
+        res.json({
+            code: 400,
+            message: "OTP không hợp lệ"
+        })
+        return;
+    }
+
+    const user = await User.findOne({
+        email: email
+    })
+
+    const token = user.token
+    res.cookie("token", token)
+
+    res.json({
+        code: 200,
+        message: "Xác thực thành công",
+        token: token
     })
 }
