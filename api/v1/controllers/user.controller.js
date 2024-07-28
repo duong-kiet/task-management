@@ -23,7 +23,8 @@ module.exports.register = async (req, res) => {
         const user = new User({
             fullName: req.body.fullName,
             email: req.body.email,
-            password: req.body.password
+            password: req.body.password,
+            token: generateHelper.generateRandomString(30)
         })
         
         user.save()
@@ -94,12 +95,12 @@ module.exports.forgotPassword = async (req,res) => {
 
     const otp = generateHelper.generateRandomNumber(8);
 
-    const timeExpire = 10; // thời gian hết hạn mã OTP
+    const timeExpire = 5; // thời gian hết hạn mã OTP
     // Lưu data vào database
     const objectForgotPassword = {
         email: email,
         otp: otp,
-        expireAt: Date.now() + timeExpire*60
+        expireAt: Date.now() + timeExpire*60*1000
     }
     
     const forgotPassword = new ForgotPassword(objectForgotPassword)
@@ -153,6 +154,7 @@ module.exports.otpPassword = async (req,res) => {
 
 // POST /api/v1/users/password/reset
 module.exports.resetPassword = async (req,res) => {
+    // const token = req.cookies.token
     const token = req.body.token
     const password = req.body.password
 
@@ -185,16 +187,16 @@ module.exports.resetPassword = async (req,res) => {
 
 // GET /api/v1/users/detail
 module.exports.detail = async (req,res) => {
-    const token = req.cookies.token
+    // const token = req.cookies.token
     
-    const user = await User.findOne({
-        token: token,
-        deleted: false
-    }).select("-password -token")
+    // const user = await User.findOne({
+    //     token: token,
+    //     deleted: false
+    // }).select("-password -token")
 
     res.json({
         code: 200,
         message: "Success",
-        info: user
+        info: req.user
     })
 }
