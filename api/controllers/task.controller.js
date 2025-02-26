@@ -4,8 +4,19 @@ const searchHelper = require("../../helpers/search")
 
 // GET /api/tasks
 module.exports.index = async (req, res) => {
-    const find = {
+    const token = res.cookies.token
+
+    const userId = await User.findOne({
+        token: token,
         deleted: false
+    }).select("_id").lean()
+
+    const find = {
+        deleted: false,
+        $or: [
+            { createdBy: userId },
+            { listUser: userId }
+        ]
     }
 
     // console.log(req.query)
