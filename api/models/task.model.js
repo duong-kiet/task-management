@@ -5,8 +5,10 @@ const taskSchema = new mongoose.Schema(
         title: String,
         status: String,
         content: String,
+        createdBy: String,
         timeStart: Date,
         timeFinish: Date,
+        listUser: Array,
         deleted: {
             type: Boolean,
             default: false,
@@ -16,6 +18,6 @@ const taskSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const Task = mongoose.model("Task", taskSchema, "tasks"); //
+const Task = mongoose.model("Task", taskSchema, "tasks");
 
 module.exports = Task;

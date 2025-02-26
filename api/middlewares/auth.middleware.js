@@ -7,7 +7,7 @@ module.exports.requireAuth = async (req,res,next) => {
         const user = await User.findOne({
             token: token,
             deleted: false
-        }).select("password")
+        }).select("-password")
 
         if(!user) {
             res.json({
@@ -17,7 +17,6 @@ module.exports.requireAuth = async (req,res,next) => {
             return;
         }
         
-        req.user = user
         next()
     } else {
         res.json({

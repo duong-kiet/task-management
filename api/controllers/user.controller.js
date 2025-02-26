@@ -2,10 +2,10 @@ const md5 = require("md5")
 const User = require("../models/user.model")
 const ForgotPassword = require("../models/forgot-password.model")
 
-const generateHelper = require("../../../helpers/generate")
-const sendMailHelper = require("../../../helpers/sendMail")
+const generateHelper = require("../../helpers/generate")
+const sendMailHelper = require("../../helpers/sendMail")
 
-// POST /api/v1/users/register
+// POST /api/users/register
 module.exports.register = async (req, res) => {
     req.body.password = md5(req.body.password)
 
@@ -40,7 +40,7 @@ module.exports.register = async (req, res) => {
     }
 }
 
-// POST /api/v1/users/login
+// POST /api/users/login
 module.exports.login = async (req,res) => {
     const email = req.body.email
     const password = req.body.password
@@ -76,7 +76,7 @@ module.exports.login = async (req,res) => {
     })
 }
 
-// POST /api/v1/users/password/forgot
+// POST /api/users/password/forgot
 module.exports.forgotPassword = async (req,res) => {
     const email = req.body.email
 
@@ -120,7 +120,7 @@ module.exports.forgotPassword = async (req,res) => {
     })
 }
 
-// POST /api/v1/users/password/otp
+// POST /api/users/password/otp
 module.exports.otpPassword = async (req,res) => {
     const email = req.body.email
     const otp = req.body.otp
@@ -152,7 +152,7 @@ module.exports.otpPassword = async (req,res) => {
     })
 }
 
-// POST /api/v1/users/password/reset
+// POST /api/users/password/reset
 module.exports.resetPassword = async (req,res) => {
     // const token = req.cookies.token
     const token = req.body.token
@@ -185,18 +185,31 @@ module.exports.resetPassword = async (req,res) => {
 }
 
 
-// GET /api/v1/users/detail
+// GET /api/users/detail
 module.exports.detail = async (req,res) => {
-    // const token = req.cookies.token
+    const token = req.cookies.token
     
-    // const user = await User.findOne({
-    //     token: token,
-    //     deleted: false
-    // }).select("-password -token")
+    const user = await User.findOne({
+        token: token,
+        deleted: false
+    }).select("-password -token") // ngoại trừ các trường này ra 
 
     res.json({
         code: 200,
         message: "Success",
-        info: req.user
+        info: user
+    })
+}
+
+// GET /api/users/list
+module.exports.detail = async (req,res) => {
+    const users = await User.find({
+        deleted: false
+    }).select("fullName email") 
+
+    res.json({
+        code: 200,
+        message: "Success",
+        users: users
     })
 }

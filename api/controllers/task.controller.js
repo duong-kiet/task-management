@@ -1,8 +1,8 @@
 const Task = require("../models/task.model")
-const paginationHelper = require("../../../helpers/pagination")
-const searchHelper = require("../../../helpers/search")
+const paginationHelper = require("../../helpers/pagination")
+const searchHelper = require("../../helpers/search")
 
-// GET /api/v1/tasks
+// GET /api/tasks
 module.exports.index = async (req, res) => {
     const find = {
         deleted: false
@@ -54,9 +54,9 @@ module.exports.index = async (req, res) => {
     res.json(tasks)
 }
 
-// GET /api/v1/tasks/detail/:id
+// GET /api/tasks/detail/:id
 module.exports.detail = async (req, res) => {
-    // Thêm try catch vào để tránh trường hợp người ta gõ linh tinh vào id , gây crash ctr
+    // Try catch 
     try {
         const id = req.params.id
 
@@ -65,13 +65,13 @@ module.exports.detail = async (req, res) => {
             deleted: false
         })
 
-        res.json(task) // trả về 1 chuỗi json
+        res.json(task)
     } catch(error) {
         res.json("Không tìm thấy")
     }
 }
 
-// PATCH /api/v1/tasks/change-status/:id
+// PATCH /api/tasks/change-status/:id
 module.exports.changeStatus = async (req, res) => {
     try {
         const id = req.params.id
@@ -95,7 +95,7 @@ module.exports.changeStatus = async (req, res) => {
     }
 }
 
-// PATCH /api/v1/tasks/change-multi
+// PATCH /api/tasks/change-multi
 module.exports.changeMulti = async (req, res) => {
     try {
         const { ids, key, value } = req.body
@@ -140,9 +140,18 @@ module.exports.changeMulti = async (req, res) => {
     }
 }
 
-// POST /api/v1/tasks/create
+// POST /api/tasks/create
 module.exports.create = async (req, res) => {
     try {
+        const token = req.cookies.token
+    
+        const userId = await User.findOne({
+            token: token,
+            deleted: false
+        }).select("_id").lean()
+
+        req.body.createdBy = userId
+
         const task = new Task(req.body)
         const data = await task.save()
 
@@ -159,7 +168,7 @@ module.exports.create = async (req, res) => {
     }
 }
 
-// PATCH /api/v1/tasks/edit/:id
+// PATCH /api/tasks/edit/:id
 module.exports.edit = async (req, res) => {
     try {
         const id = req.params.id;
@@ -178,7 +187,7 @@ module.exports.edit = async (req, res) => {
     }
 }
 
-// PATCH /api/v1/tasks/delete/:id
+// PATCH /api/tasks/delete/:id
 module.exports.delete = async (req, res) => {
     try {
         const id = req.params.id;

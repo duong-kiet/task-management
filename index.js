@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser")
 const database = require("./config/database")
 require("dotenv").config()
 
-const routesApiVer1 = require("./api/v1/routes/index.route")
+const routesApi = require("./api/routes/index.route")
 
 const app = express()
 const port = process.env.PORT
@@ -20,7 +20,7 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 
 // Routes Version 1
-routesApiVer1(app)
+routesApi(app)
 
 
 app.listen(port, () => {
