@@ -1,0 +1,152 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "task-management",
+    "version": "1.0.0",
+    "license": {
+      "name": "ISC"
+    },
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3)."
+  },
+  "paths": {
+    "/api/tasks": {
+      "get": {
+        "summary": "/api/tasks",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/tasks/detail/{id}": {
+      "get": {
+        "summary": "/api/tasks/detail/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/tasks/change-status/{id}": {
+      "patch": {
+        "summary": "/api/tasks/change-status/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/tasks/change-multi": {
+      "patch": {
+        "summary": "/api/tasks/change-multi",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/tasks/create": {
+      "post": {
+        "summary": "/api/tasks/create",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/tasks/edit/{id}": {
+      "patch": {
+        "summary": "/api/tasks/edit/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/tasks/delete/{id}": {
+      "delete": {
+        "summary": "/api/tasks/delete/{id}",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/users/register": {
+      "post": {
+        "summary": "/api/users/register",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "summary": "/api/users/login",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/users/password/forgot": {
+      "post": {
+        "summary": "/api/users/password/forgot",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/users/password/otp": {
+      "post": {
+        "summary": "/api/users/password/otp",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/users/password/reset": {
+      "post": {
+        "summary": "/api/users/password/reset",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/users/detail": {
+      "get": {
+        "summary": "/api/users/detail",
+        "responses": {},
+        "tags": []
+      }
+    },
+    "/api/users/list": {
+      "get": {
+        "summary": "/api/users/list",
+        "responses": {},
+        "tags": []
+      }
+    }
+  },
+  "tags": []
+}
